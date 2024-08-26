@@ -5,3 +5,14 @@ export const includesAnyCoordinates = (coordinatesArray, givenCoordinate) => {
       coordinateInArr.every((value, index) => value === givenCoordinate[index])
   );
 };
+
+export const gridValue = (grid) => {
+  let gridValue;
+  if (grid !== null) {
+    gridValue = "X";
+    if (grid === "empty attack") {
+      gridValue = ".";
+    }
+  }
+  return gridValue;
+};
