@@ -7,12 +7,12 @@ export const includesAnyCoordinates = (coordinatesArray, givenCoordinate) => {
 };
 
 export const gridValue = (grid) => {
-  let gridValue;
-  if (grid !== null) {
+  let gridValue = "";
+  if (grid === "hit attack") {
     gridValue = "X";
-    if (grid === "empty attack") {
-      gridValue = ".";
-    }
+  }
+  if (grid === "empty attack") {
+    gridValue = ".";
   }
   return gridValue;
 };

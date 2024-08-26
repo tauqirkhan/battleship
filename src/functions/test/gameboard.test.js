@@ -44,8 +44,7 @@ test("recieveAttack at coordinate[0][0] and hit ship if it had ship", () => {
 
   expect(result).toBeUndefined();
   expect(hitSpy).toHaveBeenCalled();
-  expect(gameboard.totalNumOfHitOnShipAt(coordinate[0][0])).toBe(1);
-  expect(ship2.getNumOfHit(coordinate[0][0])).toBe(1);
+  expect(ship2.getNumOfHit()).toBe(1);
 });
 
 test("Record the coordinate of missed shot on ship", () => {
@@ -57,6 +56,13 @@ test("Record the coordinate of missed shot on ship", () => {
     [9, 5],
     [3, 5],
   ]);
+});
+
+test("recieveAttack method on null coordinates and set it to 'empty attack' string", () => {
+  gameboard.receiveAttack([0, 9]);
+  gameboard.receiveAttack([0, 0]);
+
+  expect(gameboard.board[0][0]).toBe("empty attack");
 });
 
 test("Report whether all ships are sunk", () => {
@@ -98,11 +104,11 @@ test("checkAnyAxisOutOfGrid on hasShipAt gameboard method", () => {
   );
 });
 
-test("checkAnyAxisOutOfGrid on totalNumOfHitOnShipAt gameboard method", () => {
-  expect(() => gameboard.totalNumOfHitOnShipAt([-3, 3])).toThrow(
-    "Coordinates is Out of grid size"
-  );
-});
+// test("checkAnyAxisOutOfGrid on totalNumOfHitOnShipAt gameboard method", () => {
+//   expect(() => gameboard.totalNumOfHitOnShipAt([-3, 3])).toThrow(
+//     "Coordinates is Out of grid size"
+//   );
+// });
 
 test("checkAnyAxisOutOfGrid on receiveAttack gameboard method", () => {
   expect(() => gameboard.receiveAttack([4, 54])).toThrow(
@@ -122,6 +128,4 @@ test("Remove more than 1 attack on same coordinate", () => {
   expect(gameboard.receiveAttack([4, 4])).toBe(
     "Attack again! already attacked grid"
   );
-
-  expect(gameboard.totalNumOfHitOnShipAt(coordinate[0][0])).toBe(1);
 });

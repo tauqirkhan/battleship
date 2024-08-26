@@ -1,9 +1,6 @@
-import { includesAnyCoordinates } from "./utils";
-
-export function Gameboard(gridSize) {
+export function Gameboard(gridSize = 10) {
   const board = [];
   const missedCoordinatesArray = [];
-  const hitCoordinates = [];
 
   for (let row = 0; row < gridSize; row++) {
     board[row] = new Array(gridSize).fill(null);
@@ -43,18 +40,15 @@ export function Gameboard(gridSize) {
     checkAnyAxisOutOfGrid(coordinateArr);
 
     const gridBox = _gridBoxAt(coordinateArr);
-    if (!gridBox) return false;
+    if (
+      gridBox === null ||
+      gridBox === "empty attack" ||
+      gridBox === "hit attack"
+    ) {
+      return false;
+    }
+
     return true;
-  };
-
-  const totalNumOfHitOnShipAt = (coordinateArr) => {
-    checkAnyAxisOutOfGrid(coordinateArr);
-
-    const hasShipCheck = hasShipAt(coordinateArr);
-    const gridBox = _gridBoxAt(coordinateArr);
-
-    if (!hasShipCheck) return;
-    return gridBox.getNumOfHit();
   };
 
   const receiveAttack = (coordinateArr) => {
@@ -64,17 +58,14 @@ export function Gameboard(gridSize) {
     const gridBox = _gridBoxAt(coordinateArr);
 
     if (hasShipCheck) {
-      if (!includesAnyCoordinates(hitCoordinates, coordinateArr)) {
-        gridBox.hit();
-        hitCoordinates.push(coordinateArr);
-        return;
-      }
+      gridBox.hit();
+      board[coordinateArr[0]][coordinateArr[1]] = "hit attack";
+      return;
     }
-    if (!hasShipCheck) {
-      if (!includesAnyCoordinates(missedCoordinatesArray, coordinateArr)) {
-        missedCoordinatesArray.push(coordinateArr);
-        return;
-      }
+    if (board[coordinateArr[0]][coordinateArr[1]] === null) {
+      missedCoordinatesArray.push(coordinateArr);
+      board[coordinateArr[0]][coordinateArr[1]] = "empty attack";
+      return;
     }
     return "Attack again! already attacked grid";
   };
@@ -83,7 +74,7 @@ export function Gameboard(gridSize) {
     for (let row = 0; row < grid; row++) {
       for (let column = 0; column < grid; column++) {
         if (hasShipAt([row, column])) {
-          if (board[row][column].isSunk() === false) return false;
+          return false;
         }
       }
     }
@@ -91,11 +82,11 @@ export function Gameboard(gridSize) {
   };
 
   return {
+    board,
     missedCoordinatesArray,
     placeShip,
     hasShipAt,
     receiveAttack,
-    totalNumOfHitOnShipAt,
     areAllShipsSunk,
     checkAnyAxisOutOfGrid,
   };
