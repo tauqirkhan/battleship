@@ -26,7 +26,8 @@ export const getAllCoordinatesFromBoard = (board) => {
 
   board.forEach((row, rowIndex) => {
     row.forEach((grid, columnIndex) => {
-      if (grid !== null) {
+      // null and object are both typeof 'object'
+      if (typeof grid !== "object") {
         allCoordinates.push([rowIndex, columnIndex]);
       }
     });
