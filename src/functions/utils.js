@@ -20,3 +20,17 @@ export const gridValue = (grid) => {
 export const generateRandomNumber = (max = 10, min = 0) => {
   return Math.floor(Math.random() * (max - min)) + min;
 };
+
+export const getAllCoordinatesFromBoard = (board) => {
+  const allCoordinates = [];
+
+  board.forEach((row, rowIndex) => {
+    row.forEach((grid, columnIndex) => {
+      if (grid !== null) {
+        allCoordinates.push([rowIndex, columnIndex]);
+      }
+    });
+  });
+
+  return allCoordinates;
+};
