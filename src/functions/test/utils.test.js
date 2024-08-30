@@ -3,6 +3,11 @@ import {
   includesAnyCoordinates,
   gridValue,
   getAllCoordinatesFromBoard,
+  getRestShipCoordinates,
+  getRandomShipCoordinates,
+  getRandomLegalShipCoordinates,
+  verifyOrGetLegalCoordinates,
+  getLegalCoordinates,
 } from "../utils";
 import { computerPlay } from "../computerPlay";
 
@@ -49,4 +54,104 @@ test("getAllCoordinatesFromBoard func to get all coordinates from gameboard", ()
   }
 
   expect(getAllCoordinatesFromBoard(gameboard.board).length).toBe(73);
+});
+
+test("getShipCoordinate function to get horizontal ship coordinates", () => {
+  expect(getRestShipCoordinates([4, 4], 2, "x")).toEqual([
+    [4, 4],
+    [4, 5],
+  ]);
+
+  expect(getRestShipCoordinates([0, 8], 2, "x")).toEqual([
+    [0, 8],
+    [0, 9],
+  ]);
+});
+
+test("getShipCoordinate function to get vertical ship coordinates", () => {
+  expect(getRestShipCoordinates([0, 0], 2, "y")).toEqual([
+    [0, 0],
+    [1, 0],
+  ]);
+
+  expect(getRestShipCoordinates([8, 9], 2, "y")).toEqual([
+    [8, 9],
+    [9, 9],
+  ]);
+});
+
+test("return false if getShipCoordinate function have any out of grid axis", () => {
+  expect(getRestShipCoordinates([7, 1], 5, "y")).toBe(false);
+  expect(getRestShipCoordinates([5, 1], 5, "y")).not.toBe(false);
+});
+
+test("getRandomShipCoordinates function", () => {
+  let a = getRandomShipCoordinates(9, "x");
+  let b = () => getRandomShipCoordinates(11, "x");
+
+  expect(Array.isArray(a)).toBe(true);
+  expect(a).not.toBe(false);
+  expect(a.length).toBe(9);
+  expect(b).toThrow(Error);
+});
+
+test("getRandomLegalShipCoordinates should return valid ship coordinates", () => {
+  const allShipsCoordinates = [];
+  const shipLength = 3;
+  const axis = "x";
+  const result = getRandomLegalShipCoordinates(
+    allShipsCoordinates,
+    shipLength,
+    axis
+  );
+
+  expect(result).toHaveLength(shipLength);
+  expect(
+    result.some((coordinate) =>
+      includesAnyCoordinates(allShipsCoordinates, coordinate)
+    )
+  ).toBe(false);
+});
+
+test("verifyOrGetLegalCoordinates should return legal coordinates", () => {
+  const allShipsCoordinates = [
+    [0, 0],
+    [0, 1],
+    [0, 2],
+  ];
+  const shipCoordinates = [
+    [0, 3],
+    [0, 4],
+    [0, 5],
+  ];
+
+  const result = verifyOrGetLegalCoordinates(
+    shipCoordinates,
+    allShipsCoordinates
+  );
+
+  expect(result).toHaveLength(shipCoordinates.length);
+  expect(
+    result.some((coordinate) =>
+      includesAnyCoordinates(allShipsCoordinates, coordinate)
+    )
+  ).toBe(false);
+});
+
+test("getLegalCoordinates should return a legal set of coordinates", () => {
+  const allShipsCoordinates = [
+    [0, 0],
+    [0, 1],
+    [0, 2],
+  ];
+  const length = 3;
+
+  const result = getLegalCoordinates(length, allShipsCoordinates);
+
+  expect(result).toHaveLength(length);
+  expect(
+    result.some((coordinate) =>
+      includesAnyCoordinates(allShipsCoordinates, coordinate)
+    )
+  ).toBe(false);
 });
