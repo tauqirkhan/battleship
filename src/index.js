@@ -1,3 +1,9 @@
 import "./style.css";
+import { startTheGame } from "./functions/DOMfunctions/startTheGame";
 
-console.log("Hello World");
+startTheGame({
+  player2Name: "player2",
+  player1Name: "Player1",
+  randomShipPlacement: true,
+  isPlayer2Computer: true,
+});
