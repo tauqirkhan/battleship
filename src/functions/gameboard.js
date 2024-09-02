@@ -1,6 +1,6 @@
 export function Gameboard(gridSize = 10) {
   const board = [];
-  const missedCoordinatesArray = [];
+  let missedCoordinatesArray = [];
 
   for (let row = 0; row < gridSize; row++) {
     board[row] = new Array(gridSize).fill(null);
@@ -60,12 +60,12 @@ export function Gameboard(gridSize = 10) {
     if (hasShipCheck) {
       gridBox.hit();
       board[coordinateArr[0]][coordinateArr[1]] = "hit attack";
-      return;
+      return "hit attack";
     }
     if (board[coordinateArr[0]][coordinateArr[1]] === null) {
       missedCoordinatesArray.push(coordinateArr);
       board[coordinateArr[0]][coordinateArr[1]] = "empty attack";
-      return;
+      return "empty attack";
     }
     return "Attack again! already attacked grid";
   };
@@ -81,6 +81,15 @@ export function Gameboard(gridSize = 10) {
     return true;
   };
 
+  const resetBoard = () => {
+    missedCoordinatesArray = [];
+    board.forEach((row) => {
+      row.forEach((grid) => {
+        grid = null;
+      });
+    });
+  };
+
   return {
     board,
     missedCoordinatesArray,
@@ -89,5 +98,6 @@ export function Gameboard(gridSize = 10) {
     receiveAttack,
     areAllShipsSunk,
     checkAnyAxisOutOfGrid,
+    resetBoard,
   };
 }

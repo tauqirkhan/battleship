@@ -42,7 +42,6 @@ test("recieveAttack at coordinate[0][0] and hit ship if it had ship", () => {
 
   const result = gameboard.receiveAttack(coordinate[0][0]);
 
-  expect(result).toBeUndefined();
   expect(hitSpy).toHaveBeenCalled();
   expect(ship2.getNumOfHit()).toBe(1);
 });
@@ -104,12 +103,6 @@ test("checkAnyAxisOutOfGrid on hasShipAt gameboard method", () => {
   );
 });
 
-// test("checkAnyAxisOutOfGrid on totalNumOfHitOnShipAt gameboard method", () => {
-//   expect(() => gameboard.totalNumOfHitOnShipAt([-3, 3])).toThrow(
-//     "Coordinates is Out of grid size"
-//   );
-// });
-
 test("checkAnyAxisOutOfGrid on receiveAttack gameboard method", () => {
   expect(() => gameboard.receiveAttack([4, 54])).toThrow(
     "Coordinates is Out of grid size"
@@ -128,4 +121,19 @@ test("Remove more than 1 attack on same coordinate", () => {
   expect(gameboard.receiveAttack([4, 4])).toBe(
     "Attack again! already attacked grid"
   );
+});
+
+test("gameboard resetBoard method to reset board", () => {
+  gameboard.resetBoard();
+
+  let totalGrid = 0;
+
+  gameboard.board.forEach((row) => {
+    row.forEach((grid) => {
+      totalGrid++;
+      expect(grid).toBe(null);
+    });
+  });
+
+  expect(totalGrid).toBe(100);
 });
