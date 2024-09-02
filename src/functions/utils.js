@@ -104,3 +104,19 @@ export function getLegalCoordinates(length, allShipsCoordinates) {
 
   return getLegalCoordinates(length, allShipsCoordinates);
 }
+
+export const Attack = (attackOutput) => {
+  const attackType = {
+    isDuplicate: false,
+    isHit: false,
+  };
+
+  if (attackOutput === "Attack again! already attacked grid") {
+    attackType.isDuplicate = true;
+  } else if (attackOutput === "hit attack") attackType.isHit = true;
+
+  return {
+    isDuplicate: attackType.isDuplicate,
+    isHit: attackType.isHit,
+  };
+};
