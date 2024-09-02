@@ -6,7 +6,7 @@ export function Gameboard(gridSize = 10) {
     board[row] = new Array(gridSize).fill(null);
   }
 
-  const checkAnyAxisOutOfGrid = (coordinate, gridSize = 10) => {
+  const checkAnyAxisOutOfGrid = (coordinate) => {
     if (
       coordinate[0] >= 0 &&
       coordinate[0] < 10 &&
