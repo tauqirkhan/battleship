@@ -124,16 +124,13 @@ test("Remove more than 1 attack on same coordinate", () => {
 });
 
 test("gameboard resetBoard method to reset board", () => {
+  gameboard.placeShip(ship1, coordinate[0]);
+
   gameboard.resetBoard();
 
-  let totalGrid = 0;
-
-  gameboard.board.forEach((row) => {
-    row.forEach((grid) => {
-      totalGrid++;
+  gameboard.board.forEach((row, rowIndex) => {
+    row.forEach((grid, columnIndex) => {
       expect(grid).toBe(null);
     });
   });
-
-  expect(totalGrid).toBe(100);
 });

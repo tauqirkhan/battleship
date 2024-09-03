@@ -83,9 +83,9 @@ export function Gameboard(gridSize = 10) {
 
   const resetBoard = () => {
     missedCoordinatesArray = [];
-    board.forEach((row) => {
-      row.forEach((grid) => {
-        grid = null;
+    board.forEach((row, rowIndex) => {
+      row.forEach((grid, columnIndex) => {
+        board[rowIndex][columnIndex] = null;
       });
     });
   };
