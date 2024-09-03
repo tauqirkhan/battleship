@@ -1,31 +1,20 @@
 import { renderBoardDOM } from "./renderBoard";
 import { playOnBoard1, playOnBoard2 } from "./playOnDOM";
-import { Players } from "../player";
-import { placeRandomShipsOn } from "../placerRandomShipsOn";
+import { placeRandomShipsOnPlayers } from "../placerRandomShipsOn";
 
 export const startTheGame = ({
-  player1Name = "Goku",
-  player2Name = "Vegeta",
+  player1Obj,
+  player2Obj,
   isPlayer2Computer,
   randomShipPlacement = true,
+  gameStatusDiv,
+  player1BoardDiv,
+  player2BoardDiv,
 } = {}) => {
-  const gameStatusDiv = document.querySelector(".gameStatus");
-  const player1BoardDiv = document.querySelector(".player1Board");
-  const player2BoardDiv = document.querySelector(".player2Board");
-
-  const players = Players(player1Name, player2Name);
-  const player1Obj = players.player1;
-  const player2Obj = players.player2;
-
   const turn = {
     player1: "player1",
     player2: "player2",
   };
-
-  if (randomShipPlacement) {
-    placeRandomShipsOn(player1Obj);
-    placeRandomShipsOn(player2Obj);
-  }
 
   const statusObj = {
     currentChance: turn.player1,
@@ -33,7 +22,31 @@ export const startTheGame = ({
     isComputerPlaying: isPlayer2Computer,
   };
 
-  player1BoardDiv.addEventListener("mousedown", (e) =>
+  player1BoardDiv.addEventListener("mousedown", handlePlayer1MouseDown);
+  player2BoardDiv.addEventListener("mousedown", handlePlayer2MouseDown);
+
+  if (randomShipPlacement) placeRandomShip();
+
+  renderBoardDOM(player1BoardDiv, player1Obj.board);
+  renderBoardDOM(player2BoardDiv, player2Obj.board);
+  gameStatusDiv.textContent = `${player1Obj.name} move...`;
+
+  const resetGame = () => {
+    statusObj.currentChance = turn.player1;
+    gameStatusDiv.textContent = `${player1Obj.name} move...`;
+    statusObj.someoneWon = false;
+
+    player1Obj.resetBoard();
+    player2Obj.resetBoard();
+
+    placeRandomShip();
+
+    console.log(player1Obj.board);
+    renderBoardDOM(player1BoardDiv, player1Obj.board);
+    renderBoardDOM(player2BoardDiv, player2Obj.board);
+  };
+
+  function handlePlayer1MouseDown(e) {
     playOnBoard1({
       e,
       turn,
@@ -43,10 +56,10 @@ export const startTheGame = ({
       player1BoardDiv,
       player2BoardDiv,
       gameStatusDiv,
-    })
-  );
+    });
+  }
 
-  player2BoardDiv.addEventListener("mousedown", (e) => {
+  function handlePlayer2MouseDown(e) {
     playOnBoard2({
       e,
       turn,
@@ -56,8 +69,13 @@ export const startTheGame = ({
       player2BoardDiv,
       gameStatusDiv,
     });
-  });
+  }
 
-  renderBoardDOM(player1BoardDiv, player1Obj.board);
-  renderBoardDOM(player2BoardDiv, player2Obj.board);
+  function placeRandomShip() {
+    placeRandomShipsOnPlayers(player1Obj, player2Obj);
+  }
+
+  return {
+    resetGame,
+  };
 };
