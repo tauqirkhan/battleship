@@ -170,6 +170,55 @@ export const getAdjacentCoordinatesOfXDir = (coordinatesArray) => {
   return adjacentCoordinates;
 };
 
+export const getAdjacentCoordinatesOfYDir = (coordinatesArray) => {
+  const yStartDirection = [
+    [-1, -1],
+    [-1, 0],
+    [-1, 1],
+  ];
+
+  const yEndDirection = [
+    [1, -1],
+    [1, 0],
+    [1, 1],
+  ];
+
+  const yDirection = [
+    [0, 1],
+    [0, -1],
+  ];
+
+  const startCoordinate = coordinatesArray[0];
+  const endCoordinate = coordinatesArray[coordinatesArray.length - 1];
+
+  const adjacentCoordinates = [];
+
+  coordinatesArray.forEach((coordinate) => {
+    for (let [dx, dy] of yDirection) {
+      const adjacentCoordinate = [coordinate[0] + dx, coordinate[1] + dy];
+      if (isInGridCoordinate(adjacentCoordinate))
+        adjacentCoordinates.push(adjacentCoordinate);
+    }
+  });
+
+  for (let [dAdjX, dAdjY] of yStartDirection) {
+    const adjCoordinate = [
+      startCoordinate[0] + dAdjX,
+      startCoordinate[1] + dAdjY,
+    ];
+    if (isInGridCoordinate(adjCoordinate))
+      adjacentCoordinates.push(adjCoordinate);
+  }
+
+  for (let [dAdjX, dAdjY] of yEndDirection) {
+    const adjCoordinate = [endCoordinate[0] + dAdjX, endCoordinate[1] + dAdjY];
+    if (isInGridCoordinate(adjCoordinate))
+      adjacentCoordinates.push(adjCoordinate);
+  }
+
+  return adjacentCoordinates;
+};
+
 function isInGridCoordinate(coordinate, size = 10) {
   const row = coordinate[0];
   const column = coordinate[1];

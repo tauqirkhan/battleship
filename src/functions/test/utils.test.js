@@ -9,6 +9,7 @@ import {
   verifyOrGetLegalCoordinates,
   getLegalCoordinates,
   getAdjacentCoordinatesOfXDir,
+  getAdjacentCoordinatesOfYDir,
 } from "../utils";
 import { computerPlay } from "../computerPlay";
 
@@ -187,7 +188,7 @@ test("getAdjacentCoordinatesOfXDir that returns adjacent x-axis ship coordinates
   });
 });
 
-test("getAdjacentCoordinatesOfXDir that returns adjacent x-axis ship coordinates of starCoordinate = [0, 0] ", () => {
+test("getAdjacentCoordinatesOfXDir that returns adjacent x-axis ship coordinates of startCoordinate = [0, 0] ", () => {
   const coordinatesArray2 = [
     [0, 0],
     [0, 1],
@@ -211,4 +212,33 @@ test("getAdjacentCoordinatesOfXDir that returns adjacent x-axis ship coordinates
   });
 });
 
-test("getAdjacentCoordinatesOfXDir that returns adjacent y-axis ship coordinates", () => {});
+test("getAdjacentCoordinatesOfYDir that returns adjacent y-axis ship coordinates", () => {
+  const coordinatesArr2 = [
+    [5, 5],
+    [6, 5],
+    [7, 5],
+  ];
+
+  const adjacentCoordinates2 = [
+    [5 - 1, 5 - 1],
+    [5 - 1, 5 + 0],
+    [5 - 1, 5 + 1],
+    [5 + 0, 5 + 1],
+    [5 + 0, 5 - 1],
+    [6, 5 + 1],
+    [6, 5 - 1],
+    [7, 5 + 1],
+    [7, 5 - 1],
+    [7 + 1, 5 - 1],
+    [7 + 1, 5 + 0],
+    [7 + 1, 5 + 1],
+  ];
+
+  const adjacentCoordinates = getAdjacentCoordinatesOfYDir(coordinatesArr2);
+
+  adjacentCoordinates.forEach((adjacentCoordinate) => {
+    expect(
+      includesAnyCoordinates(adjacentCoordinates2, adjacentCoordinate)
+    ).toBe(true);
+  });
+});
