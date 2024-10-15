@@ -10,6 +10,7 @@ import {
   getLegalCoordinates,
   getAdjacentCoordinatesOfXDir,
   getAdjacentCoordinatesOfYDir,
+  getAdjacentCoordinates,
 } from "../utils";
 import { computerPlay } from "../computerPlay";
 
@@ -158,7 +159,9 @@ test("getLegalCoordinates should return a legal set of coordinates", () => {
   ).toBe(false);
 });
 
-test("getAdjacentCoordinatesOfXDir that returns adjacent x-axis ship coordinates", () => {
+test("getAdjacentCoordinates that returns adjacent x-axis ship coordinates", () => {
+  const axis = "x";
+
   const coordinatesArray = [
     [5, 5],
     [5, 6],
@@ -179,7 +182,7 @@ test("getAdjacentCoordinatesOfXDir that returns adjacent x-axis ship coordinates
     [5 + 1, 7 + 1],
   ];
 
-  const adjacentCoordinates = getAdjacentCoordinatesOfXDir(coordinatesArray);
+  const adjacentCoordinates = getAdjacentCoordinates(coordinatesArray, axis);
 
   const result = adjacentCoordinates.every((adjacentCoordinate) =>
     includesAnyCoordinates(adjacentCoordinatesSolution, adjacentCoordinate)
@@ -188,7 +191,9 @@ test("getAdjacentCoordinatesOfXDir that returns adjacent x-axis ship coordinates
   expect(result).toBe(true);
 });
 
-test("getAdjacentCoordinatesOfXDir that returns adjacent x-axis ship coordinates of startCoordinate = [0, 0] ", () => {
+test("getAdjacentCoordinates that returns adjacent x-axis ship coordinates of startCoordinate = [0, 0] ", () => {
+  const axis = "x";
+
   const coordinatesArray = [
     [0, 0],
     [0, 1],
@@ -203,7 +208,7 @@ test("getAdjacentCoordinatesOfXDir that returns adjacent x-axis ship coordinates
     [0, 2 + 1],
   ];
 
-  const adjacentCoordinates = getAdjacentCoordinatesOfXDir(coordinatesArray);
+  const adjacentCoordinates = getAdjacentCoordinates(coordinatesArray, axis);
 
   const result = adjacentCoordinates.every((adjacentCoordinate) =>
     includesAnyCoordinates(adjacentCoordinatesSolution, adjacentCoordinate)
@@ -212,7 +217,9 @@ test("getAdjacentCoordinatesOfXDir that returns adjacent x-axis ship coordinates
   expect(result).toBe(true);
 });
 
-test("getAdjacentCoordinatesOfYDir that returns adjacent y-axis ship coordinates", () => {
+test("getAdjacentCoordinates that returns adjacent y-axis ship coordinates", () => {
+  const axis = "y";
+
   const coordinatesArray = [
     [5, 5],
     [6, 5],
@@ -234,7 +241,7 @@ test("getAdjacentCoordinatesOfYDir that returns adjacent y-axis ship coordinates
     [7 + 1, 5 + 1],
   ];
 
-  const adjacentCoordinates = getAdjacentCoordinatesOfYDir(coordinatesArray);
+  const adjacentCoordinates = getAdjacentCoordinates(coordinatesArray, axis);
 
   const result = adjacentCoordinates.every((adjacentCoordinate) =>
     includesAnyCoordinates(adjacentCoordinatesSolution, adjacentCoordinate)
@@ -243,7 +250,9 @@ test("getAdjacentCoordinatesOfYDir that returns adjacent y-axis ship coordinates
   expect(result).toBe(true);
 });
 
-test("getAdjacentCoordinatesOfYDir that returns adjacent y-axis ship coordinates of startCoordinate = [0, 0] ", () => {
+test("getAdjacentCoordinates that returns adjacent y-axis ship coordinates of startCoordinate = [0, 0] ", () => {
+  const axis = "y";
+
   const coordinatesArray = [
     [0, 0],
     [1, 0],
@@ -258,7 +267,7 @@ test("getAdjacentCoordinatesOfYDir that returns adjacent y-axis ship coordinates
     [2 + 1, 0 + 1],
   ];
 
-  const adjacentCoordinates = getAdjacentCoordinatesOfYDir(coordinatesArray);
+  const adjacentCoordinates = getAdjacentCoordinates(coordinatesArray, axis);
 
   const result = adjacentCoordinates.every((adjacentCoordinate) =>
     includesAnyCoordinates(adjacentCoordinatesSolution, adjacentCoordinate)

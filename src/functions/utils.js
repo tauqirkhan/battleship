@@ -121,7 +121,17 @@ export const Attack = (attackOutput) => {
   };
 };
 
-export const getAdjacentCoordinatesOfXDir = (coordinatesArray) => {
+export const getAdjacentCoordinates = (coordinatesArray, axis) => {
+  const adjacentCoordinates = [];
+
+  const startCoordinate = coordinatesArray[0];
+  const endCoordinate = coordinatesArray[coordinatesArray.length - 1];
+
+  const direction = {
+    x: "x",
+    y: "y",
+  };
+
   const xStartDIrection = [
     [-1, -1],
     [0, -1],
@@ -139,38 +149,6 @@ export const getAdjacentCoordinatesOfXDir = (coordinatesArray) => {
     [1, 0],
   ];
 
-  const startCoordinate = coordinatesArray[0];
-  const endCoordinate = coordinatesArray[coordinatesArray.length - 1];
-
-  const adjacentCoordinates = [];
-
-  coordinatesArray.forEach((coordinate) => {
-    for (let [dx, dy] of xDirection) {
-      const adjacentCoordinate = [coordinate[0] + dx, coordinate[1] + dy];
-      if (isInGridCoordinate(adjacentCoordinate))
-        adjacentCoordinates.push(adjacentCoordinate);
-    }
-  });
-
-  for (let [dAdjX, dAdjY] of xStartDIrection) {
-    const adjCoordinate = [
-      startCoordinate[0] + dAdjX,
-      startCoordinate[1] + dAdjY,
-    ];
-    if (isInGridCoordinate(adjCoordinate))
-      adjacentCoordinates.push(adjCoordinate);
-  }
-
-  for (let [dAdjX, dAdjY] of xEndDIrection) {
-    const adjCoordinate = [endCoordinate[0] + dAdjX, endCoordinate[1] + dAdjY];
-    if (isInGridCoordinate(adjCoordinate))
-      adjacentCoordinates.push(adjCoordinate);
-  }
-
-  return adjacentCoordinates;
-};
-
-export const getAdjacentCoordinatesOfYDir = (coordinatesArray) => {
   const yStartDirection = [
     [-1, -1],
     [-1, 0],
@@ -188,32 +166,60 @@ export const getAdjacentCoordinatesOfYDir = (coordinatesArray) => {
     [0, -1],
   ];
 
-  const startCoordinate = coordinatesArray[0];
-  const endCoordinate = coordinatesArray[coordinatesArray.length - 1];
+  if (axis === direction.x) {
+    coordinatesArray.forEach((coordinate) => {
+      for (let [dx, dy] of xDirection) {
+        const adjacentCoordinate = [coordinate[0] + dx, coordinate[1] + dy];
+        if (isInGridCoordinate(adjacentCoordinate))
+          adjacentCoordinates.push(adjacentCoordinate);
+      }
+    });
 
-  const adjacentCoordinates = [];
-
-  coordinatesArray.forEach((coordinate) => {
-    for (let [dx, dy] of yDirection) {
-      const adjacentCoordinate = [coordinate[0] + dx, coordinate[1] + dy];
-      if (isInGridCoordinate(adjacentCoordinate))
-        adjacentCoordinates.push(adjacentCoordinate);
+    for (let [dAdjX, dAdjY] of xStartDIrection) {
+      const adjCoordinate = [
+        startCoordinate[0] + dAdjX,
+        startCoordinate[1] + dAdjY,
+      ];
+      if (isInGridCoordinate(adjCoordinate))
+        adjacentCoordinates.push(adjCoordinate);
     }
-  });
 
-  for (let [dAdjX, dAdjY] of yStartDirection) {
-    const adjCoordinate = [
-      startCoordinate[0] + dAdjX,
-      startCoordinate[1] + dAdjY,
-    ];
-    if (isInGridCoordinate(adjCoordinate))
-      adjacentCoordinates.push(adjCoordinate);
+    for (let [dAdjX, dAdjY] of xEndDIrection) {
+      const adjCoordinate = [
+        endCoordinate[0] + dAdjX,
+        endCoordinate[1] + dAdjY,
+      ];
+      if (isInGridCoordinate(adjCoordinate))
+        adjacentCoordinates.push(adjCoordinate);
+    }
   }
 
-  for (let [dAdjX, dAdjY] of yEndDirection) {
-    const adjCoordinate = [endCoordinate[0] + dAdjX, endCoordinate[1] + dAdjY];
-    if (isInGridCoordinate(adjCoordinate))
-      adjacentCoordinates.push(adjCoordinate);
+  if (axis === direction.y) {
+    coordinatesArray.forEach((coordinate) => {
+      for (let [dx, dy] of yDirection) {
+        const adjacentCoordinate = [coordinate[0] + dx, coordinate[1] + dy];
+        if (isInGridCoordinate(adjacentCoordinate))
+          adjacentCoordinates.push(adjacentCoordinate);
+      }
+    });
+
+    for (let [dAdjX, dAdjY] of yStartDirection) {
+      const adjCoordinate = [
+        startCoordinate[0] + dAdjX,
+        startCoordinate[1] + dAdjY,
+      ];
+      if (isInGridCoordinate(adjCoordinate))
+        adjacentCoordinates.push(adjCoordinate);
+    }
+
+    for (let [dAdjX, dAdjY] of yEndDirection) {
+      const adjCoordinate = [
+        endCoordinate[0] + dAdjX,
+        endCoordinate[1] + dAdjY,
+      ];
+      if (isInGridCoordinate(adjCoordinate))
+        adjacentCoordinates.push(adjCoordinate);
+    }
   }
 
   return adjacentCoordinates;
