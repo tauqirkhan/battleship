@@ -1,4 +1,4 @@
-import { getRandomLegalShipCoordinates } from "./utils";
+import { getRandomLegalShipCoordinates, getAdjacentCoordinates } from "./utils";
 
 export const Randomise = () => {
   const CARRIER_LEN = 5;
@@ -7,45 +7,77 @@ export const Randomise = () => {
   const SUBMARINE_LEN = 2;
   const DESTROYER_LEN = 1;
 
-  let allShipsCoordinates = [];
+  const allShipsCoordinates = [];
+  const allDodgeCoordinates = [];
+
+  let carrierAxis = getRandomAxis();
+  let battleshipAxis = getRandomAxis();
+  let cruiserAxis = getRandomAxis();
+  let submarineAxis = getRandomAxis();
+  let destroyerAxis = getRandomAxis();
 
   const carrierCoordinates = getRandomLegalShipCoordinates(
-    allShipsCoordinates,
+    allDodgeCoordinates,
     CARRIER_LEN,
-    "y"
+    carrierAxis
   );
-  allShipsCoordinates = [...allShipsCoordinates, ...carrierCoordinates];
+  allShipsCoordinates.push(...carrierCoordinates);
+  allDodgeCoordinates.push(...allShipsCoordinates);
+  allDodgeCoordinates.push(
+    ...getAdjacentCoordinates(carrierCoordinates, carrierAxis)
+  );
 
   const battleshipCoordinates = getRandomLegalShipCoordinates(
-    allShipsCoordinates,
+    allDodgeCoordinates,
     BATTLESHIP_LEN,
-    "x"
+    battleshipAxis
   );
-  allShipsCoordinates = [...allShipsCoordinates, ...battleshipCoordinates];
+  allShipsCoordinates.push(...battleshipCoordinates);
+  allDodgeCoordinates.push(...allShipsCoordinates);
+  allDodgeCoordinates.push(
+    ...getAdjacentCoordinates(battleshipCoordinates, battleshipAxis)
+  );
 
   const cruiserCoordinates = getRandomLegalShipCoordinates(
-    allShipsCoordinates,
+    allDodgeCoordinates,
     CRUISER_LEN,
-    "y"
+    cruiserAxis
   );
-  allShipsCoordinates = [...allShipsCoordinates, ...cruiserCoordinates];
+  allShipsCoordinates.push(...cruiserCoordinates);
+  allDodgeCoordinates.push(...allShipsCoordinates);
+  allDodgeCoordinates.push(
+    ...getAdjacentCoordinates(cruiserCoordinates, cruiserAxis)
+  );
 
   const submarineCoordinates = getRandomLegalShipCoordinates(
-    allShipsCoordinates,
+    allDodgeCoordinates,
     SUBMARINE_LEN,
-    "y"
+    submarineAxis
   );
-  allShipsCoordinates = [...allShipsCoordinates, ...submarineCoordinates];
+  allShipsCoordinates.push(...submarineCoordinates);
+  allDodgeCoordinates.push(...allShipsCoordinates);
+  allDodgeCoordinates.push(
+    ...getAdjacentCoordinates(submarineCoordinates, submarineAxis)
+  );
 
   const destroyerCoordinates = getRandomLegalShipCoordinates(
-    allShipsCoordinates,
+    allDodgeCoordinates,
     DESTROYER_LEN,
-    "x"
+    destroyerAxis
   );
-  allShipsCoordinates = [...allShipsCoordinates, ...destroyerCoordinates];
+  allShipsCoordinates.push(...destroyerCoordinates);
+  allDodgeCoordinates.push(...allShipsCoordinates);
+  allDodgeCoordinates.push(
+    ...getAdjacentCoordinates(destroyerCoordinates, destroyerAxis)
+  );
+
+  function getRandomAxis() {
+    return Math.random() < 0.5 ? "x" : "y";
+  }
 
   return {
     allShipsCoordinates,
+    allDodgeCoordinates,
     carrierCoordinates,
     battleshipCoordinates,
     cruiserCoordinates,

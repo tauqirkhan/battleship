@@ -17,4 +17,5 @@ export const renderBoardDOM = (parentEl, board) => {
       parentEl.appendChild(gridBtn);
     });
   });
+  console.log(board);
 };

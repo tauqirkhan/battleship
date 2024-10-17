@@ -41,7 +41,6 @@ export const startTheGame = ({
 
     placeRandomShip();
 
-    console.log(player1Obj.board);
     renderBoardDOM(player1BoardDiv, player1Obj.board);
     renderBoardDOM(player2BoardDiv, player2Obj.board);
   };
